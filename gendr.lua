@@ -1,12 +1,5 @@
 -- gendr
-
-
 engine.name = "Gendr"
-
--- create Arcify class and arcify object
-local Arcify = include("lib/arcify")
-local arcify = Arcify.new()
-
 
 local cs = require 'controlspec'
 
@@ -24,20 +17,12 @@ function gendr.params()
     controlspec = cs.new(0, 1, "lin", 0, 10, ""), action = engine.mod_osc}
   params:add{type = "control", id = "mod_adc", name = "mod_adc",
     controlspec = cs.new(0, 1, "lin", 0, 0, ""), action = engine.mod_adc}
-
   params:add{type = "control", id = "hz_min", name = "hz_min",
-    controlspec = controlspec.new(100, 8000, "exp", 10, 220), ""), action = function(value)
-      engine.hz_min(value)
-      redraw()
-    end}
-
+    controlspec = controlspec.new(100, 8000, "exp", 10, 220), action = engine.hz_min}
   params:add{type = "control", id = "hz_max", name = "hz_max",
     controlspec = controlspec.new(100, 8000, "exp", 10, 220), action = engine.hz_max}
-
-
   params:add{type = "control", id = "gate", name = "gate",
     controlspec = cs.new(0, 1, "lin", 0, 1, ""), action = engine.gate}
-
   -- second set
   params:add{type = "control", id = "svf_hz", name = "svf_hz",
     controlspec = cs.new(0, 6, "lin", 0, 0, ""), action = engine.svf_hz}
@@ -61,31 +46,6 @@ function gendr.params()
   params:add{type = "control", id = "pan", name = "pan",
     controlspec = cs.new(0, 1, "lin", -1, 1, ""), action = engine.pan}
 
-arcify:register("hz", 10)
-arcify:add_params()
 end
-function redraw()
-    screen.clear()
-
-    screen.move(16, 16)
-    screen.text("Arcify Test")
-    screen.move(16, 28)
-    screen.text("Hz")
-    screen.move(36, 28)
-    screen.text(params:get("hz"))
-    screen.move(16, 36)
-    screen.text("Amp")
-    screen.move(36, 36)
-    screen.text(params:get("amp"))
-    screen.move(16, 48)
-    screen.text("See the PARAMS screen")
-    screen.move(16, 56)
-    screen.text("to assign Arc encoders")
-
-    screen.update()
-end
-
-
-
 
 return gendr
